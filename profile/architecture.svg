@@ -1,0 +1,86 @@
+<svg width="680" height="500" viewBox="0 0 680 500" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>전체 아키텍처 및 판정 흐름</title>
+<desc>직원이 진입 경로에 요청하면 진입 경로가 DLP 판정 서버에 입력 검사를 요청해 판정을 받고 외부 LLM에 중계한다. 응답도 진입 경로가 DLP에 다시 검사 요청해 판정을 받은 뒤 직원에게 전달하며, 판정 이력은 DB에 기록되고 관리자 대시보드로 전달된다.</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+<style>
+text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;}
+.th{font-size:14px;font-weight:500;}
+.stage{font-size:13px;font-weight:400;}
+.ts{font-size:12px;font-weight:400;fill:#5F5E5A;}
+.el{font-size:11px;font-weight:400;fill:#5F5E5A;}
+.t-blue{fill:#0C447C;}
+.t-teal{fill:#085041;}
+.t-purple{fill:#3C3489;}
+.t-gray{fill:#444441;}
+.b-blue{fill:#E6F1FB;stroke:#185FA5;stroke-width:0.75;}
+.b-teal{fill:#E1F5EE;stroke:#0F6E56;stroke-width:0.75;}
+.b-purple{fill:#EEEDFE;stroke:#534AB7;stroke-width:0.75;}
+.b-gray{fill:#F1EFE8;stroke:#5F5E5A;stroke-width:0.75;}
+.conn{stroke:#5F5E5A;stroke-width:0.75;fill:none;}
+.lead{stroke:#888780;stroke-width:0.75;fill:none;stroke-dasharray:3 2;}
+.hdr{fill:#2C2C2A;}
+</style>
+</defs>
+
+<rect x="0" y="0" width="680" height="500" fill="#ffffff"/>
+
+<rect x="290" y="36" width="100" height="32" rx="4" class="b-gray"/>
+<text class="th t-gray" x="340" y="56" text-anchor="middle">직원 PC</text>
+<line x1="330" y1="68" x2="330" y2="90" class="conn" marker-end="url(#arrow)"/>
+<line x1="352" y1="90" x2="352" y2="68" class="conn" marker-end="url(#arrow)"/>
+<text class="el" x="326" y="83" text-anchor="end">요청</text>
+<text class="el" x="356" y="83">최종 답변</text>
+
+<rect x="55" y="94" width="105" height="44" rx="4" class="b-gray"/>
+<text class="th t-gray" x="107" y="120" text-anchor="middle">외부 LLM</text>
+<line x1="190" y1="112" x2="160" y2="112" class="conn" marker-end="url(#arrow)"/>
+<line x1="160" y1="128" x2="190" y2="128" class="conn" marker-end="url(#arrow)"/>
+<text class="el" x="175" y="106" text-anchor="middle">중계</text>
+<text class="el" x="175" y="142" text-anchor="middle">응답</text>
+
+<rect x="190" y="90" width="320" height="58" rx="6" fill="#FAFAF8" stroke="#D3D1C7" stroke-width="0.75"/>
+<text class="el" x="350" y="102" text-anchor="middle">진입 경로</text>
+<rect x="205" y="110" width="130" height="30" rx="4" class="b-gray"/>
+<text class="th t-gray" x="270" y="129" text-anchor="middle">Gateway</text>
+<rect x="350" y="110" width="130" height="30" rx="4" class="b-gray"/>
+<text class="th t-gray" x="415" y="129" text-anchor="middle">Proxy</text>
+
+<rect x="70" y="195" width="470" height="215" rx="8" fill="#FAFAF8" stroke="#D3D1C7" stroke-width="0.75"/>
+<text class="th hdr" x="82" y="214">DLP 판정 서버</text>
+
+<rect x="95" y="228" width="230" height="162" rx="4" class="b-blue"/>
+<text class="th t-blue" x="210" y="248" text-anchor="middle">입력 검사</text>
+<text class="stage t-blue" x="110" y="274">① 보안 검사</text>
+<text class="stage t-blue" x="110" y="298">② 민감정보 탐지</text>
+<text class="stage t-blue" x="110" y="322">③ 멀티턴 위험 분석</text>
+<text class="stage t-blue" x="110" y="346">④ 목적·정책 판단</text>
+<text class="stage t-blue" x="110" y="370">⑤ 동적 변환</text>
+
+<rect x="345" y="228" width="185" height="100" rx="4" class="b-teal"/>
+<text class="th t-teal" x="437" y="248" text-anchor="middle">응답 검사·복원</text>
+<text class="stage t-teal" x="360" y="276">⑥ 응답 재검사</text>
+<text class="stage t-teal" x="360" y="302">⑦ 토큰 복원</text>
+
+<line x1="240" y1="148" x2="240" y2="228" class="conn" marker-end="url(#arrow)"/>
+<text class="el" x="234" y="185" text-anchor="end">입력 검사</text>
+<line x1="262" y1="228" x2="262" y2="149" class="conn" marker-end="url(#arrow)"/>
+<text class="el" x="268" y="185">입력 판정</text>
+
+<line x1="420" y1="148" x2="420" y2="228" class="conn" marker-end="url(#arrow)"/>
+<text class="el" x="414" y="185" text-anchor="end">응답 검사</text>
+<line x1="442" y1="228" x2="442" y2="149" class="conn" marker-end="url(#arrow)"/>
+<text class="el" x="448" y="185">응답 판정</text>
+
+<line x1="150" y1="410" x2="150" y2="436" class="lead"/>
+<line x1="360" y1="410" x2="360" y2="436" class="conn" marker-end="url(#arrow)"/>
+
+<rect x="95" y="436" width="130" height="42" rx="4" class="b-purple"/>
+<text class="th t-purple" x="160" y="454" text-anchor="middle">DB</text>
+<text class="ts" x="160" y="470" text-anchor="middle">정책 · 토큰 · 감사</text>
+
+<rect x="290" y="436" width="190" height="42" rx="4" class="b-gray"/>
+<text class="th t-gray" x="385" y="462" text-anchor="middle">관리자 대시보드</text>
+</svg>
