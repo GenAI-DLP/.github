@@ -14,7 +14,8 @@ Go 프록시 서버에서 LLM 트래픽을 가로채고, FastAPi 기반 백엔�
 4. [Dashboard](https://github.com/GenAI-DLP/dashboard)
 
 ### 📝 Documents
-[Docs](https://github.com/GenAI-DLP/docs)
+- Architecture 및 구현 세부 사항과 관련된 md파일들이 정리되어 있습니다.
+- [Docs](https://github.com/GenAI-DLP/docs)
 
 
 
